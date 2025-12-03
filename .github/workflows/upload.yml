@@ -19,16 +19,11 @@ jobs:
       - name: Install Fastlane
         run: gem install fastlane
 
-      - name: Save API Key
-        run: echo "${{ secrets.APP_STORE_KEY }}" > AuthKey.p8
-
       - name: Upload .ipa to App Store Connect
         run: |
           fastlane deliver \
             --ipa ./MyApp.ipa \
-            --api_key_path ./AuthKey.p8 \
-            --api_key_id ${{ secrets.APP_STORE_KEY_ID }} \
-            --api_issuer_id ${{ secrets.APP_STORE_ISSUER_ID }} \
+            --api_key_path ./AppStoreConnectAPIKey.json \
             --skip_metadata true \
             --skip_screenshots true \
             --force
