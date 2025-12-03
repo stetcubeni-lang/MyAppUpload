@@ -1,0 +1,34 @@
+name: Upload iOS App
+
+on:
+  workflow_dispatch:
+
+jobs:
+  upload:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Ruby (for Fastlane)
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+
+      - name: Install Fastlane
+        run: gem install fastlane
+
+      - name: Save API Key
+        run: echo "${{ secrets.APP_STORE_KEY }}" > AuthKey.p8
+
+      - name: Upload .ipa to App Store Connect
+        run: |
+          fastlane deliver \
+            --ipa ./MyApp.ipa \
+            --api_key_path ./AuthKey.p8 \
+            --api_key_id ${{ secrets.APP_STORE_KEY_ID }} \
+            --api_issuer_id ${{ secrets.APP_STORE_ISSUER_ID }} \
+            --skip_metadata true \
+            --skip_screenshots true \
+            --force
