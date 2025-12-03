@@ -27,7 +27,7 @@ jobs:
         run: gem install fastlane
 
       # 5. Upload .ipa la App Store Connect
-      - name: Upload .ipa to App Store Connect
+      - name: Upload application-dd06465e-7cbb-4b9f-8029-0297a3b26371.ipa to App Store Connect
         run: |
           fastlane deliver \
             --ipa ./MyApp.ipa \
