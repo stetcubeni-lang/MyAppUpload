@@ -1,3 +1,4 @@
+
 name: Upload iOS App
 
 on:
@@ -11,6 +12,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: List files (debug)
+        run: ls -R
+
       - name: Setup Ruby (for Fastlane)
         uses: ruby/setup-ruby@v1
         with:
@@ -19,7 +23,39 @@ jobs:
       - name: Install Fastlane
         run: gem install fastlane
 
-      - name: application-dd06465e-7cbb-4b9f-8029-0297a3b26371.ipa to App Store Connect
+      - name: Upload .ipa to App Store Connect
+        run: |
+          fastlane deliver \
+            --ipa ./MyApp.ipa \
+            --api_key_path ./AppStoreConnectAPIKey.json \
+            --skip_metadata true \
+            --skip_screenshots true \
+            --force
+name: Upload iOS App
+
+on:
+  workflow_dispatch:
+
+jobs:
+  upload:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: List files (debug)
+        run: ls -R
+
+      - name: Setup Ruby (for Fastlane)
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+
+      - name: Install Fastlane
+        run: gem install fastlane
+
+      - name: Upload .ipa to App Store Connect
         run: |
           fastlane deliver \
             --ipa ./MyApp.ipa \
