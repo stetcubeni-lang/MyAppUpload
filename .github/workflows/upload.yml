@@ -8,21 +8,26 @@ jobs:
     runs-on: macos-latest
 
     steps:
+      # 1. Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: List files (debug)
+      # 2. Debug: list all fișiere și foldere
+      - name: List files recursively
         run: ls -R
 
-      - name: Setup Ruby (for Fastlane)
+      # 3. Setup Ruby (pentru Fastlane)
+      - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2'
 
+      # 4. Instalează Fastlane
       - name: Install Fastlane
         run: gem install fastlane
 
-      - name: application-dd06465e-7cbb-4b9f-8029-0297a3b26371.ipa to App Store Connect
+      # 5. Upload .ipa la App Store Connect
+      - name: Upload .ipa to App Store Connect
         run: |
           fastlane deliver \
             --ipa ./MyApp.ipa \
